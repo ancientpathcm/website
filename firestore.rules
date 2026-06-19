@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /contactSubmissions/{submissionId} {
+      allow create: if isValidContactSubmission();
+      allow read, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidContactSubmission() {
+      return request.resource.data.keys().hasOnly([
+          'name',
+          'email',
+          'organization',
+          'message',
+          'source',
+          'createdAt',
+          'submittedAtClient',
+          'formLoadedAtClient',
+          'website'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.email is string
+        && request.resource.data.organization is string
+        && request.resource.data.message is string
+        && request.resource.data.source == 'website-contact-form'
+        && request.resource.data.website == 'ancientpathcm.org'
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.submittedAtClient is timestamp
+        && request.resource.data.formLoadedAtClient is timestamp
+        && request.resource.data.submittedAtClient >= request.resource.data.formLoadedAtClient + duration.value(3, 's')
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 120
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && request.resource.data.email.size() <= 180
+        && request.resource.data.organization.size() <= 180
+        && request.resource.data.message.size() >= 10
+        && request.resource.data.message.size() <= 5000;
+    }
+  }
+}
