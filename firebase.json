@@ -17,6 +17,10 @@
     ],
     "rewrites": [
       {
+        "source": "/board",
+        "destination": "/board.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

@@ -231,6 +231,53 @@ h4 {
   font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
+.board-page {
+  min-height: calc(100vh - 151px);
+  background: var(--paper);
+}
+
+.board-heading,
+.board-grid {
+  width: min(980px, 100%);
+  margin-inline: auto;
+}
+
+.board-heading {
+  margin-bottom: 34px;
+}
+
+.board-heading h1 {
+  color: var(--sage-dark);
+}
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.board-grid article {
+  min-height: 150px;
+  display: grid;
+  align-content: end;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 16px 44px rgba(23, 33, 26, 0.08);
+}
+
+.board-grid h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.35rem, 3vw, 2.2rem);
+}
+
+.board-grid p {
+  margin-bottom: 0;
+  color: var(--clay);
+  font-weight: 800;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -708,7 +755,8 @@ h4 {
   .feature-grid,
   .program-grid,
   .impact-grid,
-  .involvement-grid {
+  .involvement-grid,
+  .board-grid {
     grid-template-columns: 1fr;
   }
 
